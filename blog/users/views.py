@@ -26,3 +26,5 @@ def get_user(pk: int):
         '/users/details.html',
         user_name=user_name,
     )
+
+
