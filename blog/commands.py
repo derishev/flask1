@@ -1,26 +1,28 @@
-import click
-from werkzeug.security import generate_password_hash
-
-from blog.extensions import db
+from blog.app import db
+from wsgi import app
 
 
-@click.command('init-db')
+@app.cli.command("init-db")
 def init_db():
-    from wsgi import app
+    """
+    Run in your terminal:
+    flask init-db
+    """
+    db.create_all()
+    print("done!")
 
-    # import models for creating tables
+
+@app.cli.command("create-users")
+def create_users():
+    """
+    Run in your terminal:
+    flask create-users
+    > done! created users: <User #1 'admin'> <User #2 'james'>
+    """
     from blog.models import User
-
-    db.create_all(app=app)
-
-
-@click.command('create-init-user')
-def create_init_user():
-    from blog.models import User
-    from wsgi import app
-
-    with app.app_context():
-        db.session.add(
-            User(email='name@example.com', password=generate_password_hash('test123'))
-        )
-        db.session.commit()
+    admin = User(username="admin", is_staff=True)
+    james = User(username="james")
+    db.session.add(admin)
+    db.session.add(james)
+    db.session.commit()
+    print("done! created users:", admin, james)
