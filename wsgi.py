@@ -11,7 +11,7 @@ if __name__ == "__main__":
 #     """
 #     Run in your terminal:
 #     flask init-db
-#     ""
+#     """
 #     db.create_all()
 #     print("done!")
 
